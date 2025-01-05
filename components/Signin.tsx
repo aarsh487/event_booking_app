@@ -1,23 +1,32 @@
 "use client";
 import axios from "axios";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEventHandler, useState } from "react";
 
-export function Signup() {
-  const [username, setUsername] = useState("");
+export function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+
+  const handleLogin = async() => {
+    const result = await signIn("credentials", {
+        redirect: false,
+        email,
+        password
+    })
+    router.push('/')
+  }
 
   return (
     <div>
      <div className="text-end p-10">
   <Link 
     className="text-xs font-bold border-transparent hover:border-black relative transition-all duration-500 ease-in-out group"
-    href="/signin"
+    href="/signup"
   >
-    LOG IN
+    CREATE ACCOUNT
     <span 
       className="absolute left-0 bottom-[-4px] h-[1.5px] w-full bg-black scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-in-out"
     ></span>
@@ -28,16 +37,9 @@ export function Signup() {
           <div className="block max-w-sm p-6 ">
             <div className="flex flex-col gap-4">
               <div className="px-10">
-                <div className="text-2xl font-bold">Create Your Account</div>
+                <div className="text-2xl font-bold">Log into evento</div>
               </div>
               <div className="pt-2 flex flex-col gap-8">
-                <LabelledInput
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                  label="USERNAME"
-                  placeholder="Username"
-                />
                 <LabelledInput
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -53,27 +55,12 @@ export function Signup() {
                   type={"password"}
                   placeholder="Password"
                 />
-                <p className="text-xs text-neutral-500 text-center">
-                  By creating an account, you agree to our{" "}
-                  <u>Terms of Service</u> and have read and understood the{" "}
-                  <u>Privacy Policy</u>
-                </p>
                 <button
-                  onClick={async () => {
-                    const response = await axios.post(
-                      "http://localhost:3000/api/signup",
-                      {
-                        username,
-                        email,
-                        password,
-                      }
-                    );
-                    router.push("/");
-                  }}
+                  onClick={ () => handleLogin()}
                   type="button"
                   className="w-full text-white bg-gray-800 focus:ring-gray-300 font-medium text-sm px-5 py-2.5 me-2 mb-2"
                 >
-                  Sign up
+                  Sign in
                 </button>
               </div>
             </div>
