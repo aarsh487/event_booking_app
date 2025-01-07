@@ -56,7 +56,7 @@ export async function GET(req: NextRequest) {
     try {
         const events = await prisma.event.findMany();
         return NextResponse.json(
-            { success: true, message: "Event created successfully", events },
+            { success: true, message: "Event fetched successfully", events },
             { status: 201 }
           );
     } catch (error) {
