@@ -1,8 +1,9 @@
-import { Dashboard } from "@/components/Dashboard"
+import { SidebarDemo } from "@/components/Dashboard"
+
 
 
 function page() {
-    return <Dashboard />
+    return <SidebarDemo />
 }
 
 export default page
